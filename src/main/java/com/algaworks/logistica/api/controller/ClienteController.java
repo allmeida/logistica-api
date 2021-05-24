@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -40,8 +41,21 @@ public class ClienteController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)							// retorna o status de criação
-	public Cliente adicionar(@RequestBody Cliente cliente) {
+	public Cliente adicionar(@RequestBody Cliente cliente) {	// adiciona clientes
 		return clienteRepository.save(cliente);					//salva e retorna o cliente no corpo da resposta
+	}
+	
+	@PutMapping("/{clienteId}")												// mapeia o id do cliente
+	public ResponseEntity<Cliente> Atualiza(@PathVariable Long clienteId,   // @PpathVariable faz a busca do cliente
+			@RequestBody Cliente cliente) {
+		if (!clienteRepository.existsById(clienteId)) {         			// verifica se existe o cliente
+			return ResponseEntity.notFound().build();          				// se nao existe retorna o status 400
+		}
+		
+		cliente.setId(clienteId);								// faz o JPA a entender que o cliente existe
+		cliente = clienteRepository.save(cliente);				// e atualiza o cliente
+		
+		return ResponseEntity.ok(cliente);						// retorna o status 200 
 	}
 	
 }
