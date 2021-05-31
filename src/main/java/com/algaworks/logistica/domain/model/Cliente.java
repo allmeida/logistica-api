@@ -24,17 +24,17 @@ public class Cliente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank
-	@Size(max = 60)
+	@NotBlank 					// permite a entrada de valor null e vazio.
+	@Size(max = 60)				// valor máximo de caracteres.
 	private String nome;
 	
-	@NotBlank
-	@Email
-	@Size(max = 255)
+	@NotBlank					// permite a entrada de valor null e vazio.
+	@Email						// valida a sintaxe correta de um email.
+	@Size(max = 255)			// valor máximo de caracteres.
 	private String email;
 	
-	@NotBlank
-	@Size(max = 20)
+	@NotBlank					// permite a entrada de valor null e vazio.
+	@Size(max = 20)				// valor máximo de caracteres.
 	@Column(name = "fone")
 	private String telefone;
 	

@@ -32,33 +32,33 @@ public class ClienteController {
 
 	@GetMapping
 	public List<Cliente> listar() {
-		return clienteRepository.findAll(); // retorna todos clientes
+		return clienteRepository.findAll(); 								// retorna todos clientes
 	}
 	
-	@GetMapping("/{clienteId}")
+	@GetMapping("/{clienteId}")												// mapeia o id do cliente
 	public ResponseEntity<Cliente> buscar(@PathVariable Long clienteId) {
-		return clienteRepository.findById(clienteId)		    // retorna apenas um cliente
-					.map(ResponseEntity::ok)				    // verifica se existe o cliente e retorna um status 200
-					.orElse(ResponseEntity.notFound().build()); // se o cliente nao existir, retorna um status 404
+		return clienteRepository.findById(clienteId)		    			// retorna apenas um cliente
+					.map(ResponseEntity::ok)				    			// verifica se existe o cliente e retorna um status 200
+					.orElse(ResponseEntity.notFound().build()); 			// se o cliente nao existir, retorna um status 404
 	}
 	
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)							// retorna o status de criação
-	public Cliente adicionar(@Valid @RequestBody Cliente cliente) {	// adiciona clientes
-		return clienteRepository.save(cliente);					//salva e retorna o cliente no corpo da resposta
+	@PostMapping															
+	@ResponseStatus(HttpStatus.CREATED)										// retorna o status de criação
+	public Cliente adicionar(@Valid @RequestBody Cliente cliente) {			// valida e adiciona clientes
+		return clienteRepository.save(cliente);								// salva e retorna o cliente no corpo da resposta
 	}
 	
 	@PutMapping("/{clienteId}")												// mapeia o id do cliente
-	public ResponseEntity<Cliente> Atualiza(@PathVariable Long clienteId,   // @PpathVariable faz a busca do cliente
-			@Valid @RequestBody Cliente cliente) {
+	public ResponseEntity<Cliente> Atualiza(@PathVariable Long clienteId,   // @PathVariable faz a busca do cliente
+			@Valid @RequestBody Cliente cliente) {							// valida e atualiza clientes
 		if (!clienteRepository.existsById(clienteId)) {         			// verifica se existe o cliente
 			return ResponseEntity.notFound().build();          				// se nao existe retorna o status 400
 		}
 		
-		cliente.setId(clienteId);								// faz o JPA a entender que o cliente existe
-		cliente = clienteRepository.save(cliente);				// e atualiza o cliente
+		cliente.setId(clienteId);											// faz o JPA a entender que o cliente existe
+		cliente = clienteRepository.save(cliente);							// e atualiza o cliente
 		
-		return ResponseEntity.ok(cliente);						// retorna o status 200 
+		return ResponseEntity.ok(cliente);									// retorna o status 200 
 	}
 	
 	@DeleteMapping("/{clienteId}")
