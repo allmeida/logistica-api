@@ -3,6 +3,8 @@ package com.algaworks.logistica.api.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,13 +44,13 @@ public class ClienteController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)							// retorna o status de criação
-	public Cliente adicionar(@RequestBody Cliente cliente) {	// adiciona clientes
+	public Cliente adicionar(@Valid @RequestBody Cliente cliente) {	// adiciona clientes
 		return clienteRepository.save(cliente);					//salva e retorna o cliente no corpo da resposta
 	}
 	
 	@PutMapping("/{clienteId}")												// mapeia o id do cliente
 	public ResponseEntity<Cliente> Atualiza(@PathVariable Long clienteId,   // @PpathVariable faz a busca do cliente
-			@RequestBody Cliente cliente) {
+			@Valid @RequestBody Cliente cliente) {
 		if (!clienteRepository.existsById(clienteId)) {         			// verifica se existe o cliente
 			return ResponseEntity.notFound().build();          				// se nao existe retorna o status 400
 		}
